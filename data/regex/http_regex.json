@@ -1,0 +1,9 @@
+[
+    {
+        "rule_name": "http",
+        "regex": "https?://[^\\s]*key=[^\\s&]*",
+        "is_mechanical": "human",
+        "series": "http",
+        "entropy": 3.5
+    }
+]
