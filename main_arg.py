@@ -35,8 +35,6 @@ if __name__ == '__main__':
 	parser.add_argument('--entropy_path', dest='entropy_path', type=str, help='Entropy usage path', default="./data/entropy_result.bin")
 	parser.add_argument('--regex', dest='regex', type=str, help='regex', default='./data/regex/regex_machine_human_v2.json')
 	parser.add_argument('--save_name', dest='save_name', type=str, help='Save the file name for easy identification', default="all_result")
-	parser.add_argument('--pre_loc', dest='pre_loc', type=str, help='Continue with previous testing loc——pre_test_root', default="None")
-	parser.add_argument('--hit_dict', dest='hit_dict', type=str, help=' previous hit_dict', default="None")
 	parser.add_argument('--size_limit', dest='size_limit', type=int, help=' size_limit of file', default=10 * 1024 * 1024)
 	parser.add_argument('--core_num', dest='core_num', type=int, help=' nums of core', default=multiprocessing.cpu_count()-5)
 	parser.add_argument('--timeout_seconds', dest='timeout_seconds', type=int, help='timeout_seconds',
@@ -51,7 +49,7 @@ if __name__ == '__main__':
 	save_root = make_result()  # create folder to save res
 	log_path = os.path.join(save_root, "log.json")
 	logger_instance = setup_logger(log_path)
-	logger_instance.info(f"--mode:{args.mode},--path:{args.path},--regex:{args.regex}, --entropy_path:{args.entropy_path}, --save_name:{args.save_name},--pre_loc{args.pre_loc},--size_limit{args.size_limit}")
+	logger_instance.info(f"--mode:{args.mode},--path:{args.path},--regex:{args.regex}, --entropy_path:{args.entropy_path}, --save_name:{args.save_name},--size_limit{args.size_limit}")
 
 	file_list=get_files(args.path,args.size_limit)
 
