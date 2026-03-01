@@ -24,11 +24,15 @@ from get_strings.filter_strings import filter_strings
 from base_func.logger import setup_logger
 from base_func.save_state import *
 import signal
+import platform
 from tqdm import tqdm
 
 # Define timeout processing function # 30s for each file
 def handler(signum, frame):
     raise TimeoutError("File processing exceeded time limit")
+
+# Check if SIGALRM is available (not on Windows)
+HAS_SIGALRM = hasattr(signal, 'SIGALRM')
 
 
 
@@ -150,8 +154,9 @@ def scan_filelist_tf(rules_single,file_list,single_dict,duplicate_dict,shared_va
             print("Inside the function:", shared_variable.value)
         try:
 
-            signal.signal(signal.SIGALRM, handler)
-            signal.alarm(timeout_seconds)
+            if HAS_SIGALRM:
+                signal.signal(signal.SIGALRM, handler)
+                signal.alarm(timeout_seconds)
             # print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",file_path)
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
@@ -273,7 +278,8 @@ def scan_filelist_tf(rules_single,file_list,single_dict,duplicate_dict,shared_va
             logger_instance.info(str(info))
         finally:
             # 重置定时器
-            signal.alarm(0)
+            if HAS_SIGALRM:
+                signal.alarm(0)
     return single_dict
 
 
